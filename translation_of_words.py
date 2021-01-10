@@ -173,7 +173,15 @@ def test_knowledge ():
             if isinstance(words[key], str):
                 test_dictionary[key] = words[key]
             else:
-                translate = words[key][int(random.random() * (len(words[key]) - 1))]
+                last_translates = len(words[key]) - 1
+                translate_r = int(random.random() * last_translates)
+                translate = words[key][translate_r]
+                if translate_r == 0:
+                    translate += ' (' + ', '.join(words[key][1:]) + ')'
+                elif translate_r == last_translates:
+                    translate += ' (' + ', '.join(words[key][:last_translates]) + ')'
+                else:
+                    translate += ' (' + ', '.join(words[key][:last_translates] + words[key][last_translates + 1:]) + ')'
                 test_dictionary[translate] = key
         
         print('Вам по очереди будут выведены слова для перевода. В ответ вы должны будете указать одно слово перевода (или нажать Enter если не знаете перевода).\n')
@@ -181,6 +189,8 @@ def test_knowledge ():
         points      = {'success': 0, 'error': 0, 'empty': 0}
         msg_success = 'Все верно.'
         msg_error   = 'Вы ошиблись.'
+        indent      = 1
+        i = 1
         for key in test_keys:
             if isinstance(test_dictionary[key], str) and (test_dictionary[key] in words):
                 if isinstance(words[test_dictionary[key]], str):
@@ -193,28 +203,31 @@ def test_knowledge ():
                 else:
                     hint = key + ' -- ' + (TRANSLATE_SEPARATOR + ' ').join(test_dictionary[key])
             
-            answer   = (input(key + ': ')).lower()
-            answer_e = answer.replace('ё', 'е')
+            answer_num = str(i) + ') '
+            answer     = (input(answer_num + key + ': ')).lower()
+            answer_e   = answer.replace('ё', 'е')
             if answer:
+                indent = len(answer_num)
                 if isinstance(test_dictionary[key], str):
                     if (answer == test_dictionary[key]) or (answer_e == test_dictionary[key]):
-                        print(msg_success + ' (' + hint + ')\n')
+                        print((' ' * indent) +  msg_success + ' (' + hint + ')\n')
                         points['success'] += 1
                     else:
-                        print(msg_error + ' (' + hint + ')\n')
+                        print((' ' * indent) +  msg_error + ' (' + hint + ')\n')
                         points['error'] += 1
                 else:
                     if (answer in test_dictionary[key]) or (answer_e in test_dictionary[key]):
-                        print(msg_success + ' (' + hint + ')\n')
+                        print((' ' * indent) +  msg_success + ' (' + hint + ')\n')
                         points['success'] += 1
                     else:
-                        print(msg_error + ' (' + hint + ')\n')
+                        print((' ' * indent) +  msg_error + ' (' + hint + ')\n')
                         points['error'] += 1
             else:
                 print('(' + hint + ')\n')
                 points['empty'] += 1
+            i += 1
         
-        separator = '\n\t'
+        separator = '\n' + (' ' * indent)
         print('Результат:' + separator + separator.join(['Правильных ответов: ' + str(points['success']), 'Ошибок: ' + str(points['error']), 'Пропущенных ответов: ' + str(points['empty'])]) + '\n')
     else:
         print('Нечего проверять. Словарь пуст.')
@@ -234,7 +247,7 @@ def main ():
         c_2  = '2 -- добавить новое слово'
         c_3  = '3 -- изменить уже добавленное слово'
         c_4  = '4 -- проверить свои знания'
-        action_msg = 'Введите номер команды:' + item_separator + (item_separator.join([c_m1, c_0, c_1, c_2, c_3, c_4])) + '\n'
+        action_msg = 'Введите номер команды:' + item_separator + (item_separator.join([c_m1, c_0, c_1, c_2, c_3, c_4])) + '\n  > '
         action = int(input(action_msg))
         while action:
             if action is -1:

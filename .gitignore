@@ -1,2 +1,3 @@
 *.dictionary
 *.dictionary.copy
+.vscode
