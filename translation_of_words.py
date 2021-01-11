@@ -210,20 +210,20 @@ def test_knowledge ():
                 indent = len(answer_num)
                 if isinstance(test_dictionary[key], str):
                     if (answer == test_dictionary[key]) or (answer_e == test_dictionary[key]):
-                        print((' ' * indent) +  msg_success + ' (' + hint + ')\n')
+                        print((' ' * indent) + '\033[1;32m' +  msg_success + ' (' + hint + ')\033[0m\n')
                         points['success'] += 1
                     else:
-                        print((' ' * indent) +  msg_error + ' (' + hint + ')\n')
+                        print((' ' * indent) + '\033[1;31m' +  msg_error + ' (' + hint + ')\033[0m\n')
                         points['error'] += 1
                 else:
                     if (answer in test_dictionary[key]) or (answer_e in test_dictionary[key]):
-                        print((' ' * indent) +  msg_success + ' (' + hint + ')\n')
+                        print((' ' * indent) + '\033[1;32m' +  msg_success + ' (' + hint + ')\033[0m\n')
                         points['success'] += 1
                     else:
-                        print((' ' * indent) +  msg_error + ' (' + hint + ')\n')
+                        print((' ' * indent) + '\033[1;31m' +  msg_error + ' (' + hint + ')\033[0m\n')
                         points['error'] += 1
             else:
-                print('(' + hint + ')\n')
+                print((' ' * indent) + '\033[3m' + '(' + hint + ')\033[0m\n')
                 points['empty'] += 1
             i += 1
         
