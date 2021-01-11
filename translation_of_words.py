@@ -181,7 +181,7 @@ def test_knowledge ():
                 elif translate_r == last_translates:
                     translate += ' (' + ', '.join(words[key][:last_translates]) + ')'
                 else:
-                    translate += ' (' + ', '.join(words[key][:last_translates] + words[key][last_translates + 1:]) + ')'
+                    translate += ' (' + ', '.join(words[key][:translate_r] + words[key][translate_r + 1:]) + ')'
                 test_dictionary[translate] = key
         
         print('Вам по очереди будут выведены слова для перевода. В ответ вы должны будете указать одно слово перевода (или нажать Enter если не знаете перевода).\n')
